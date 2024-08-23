@@ -1,0 +1,39 @@
+<string name="username">guineapig</string>
+<string name="password">hereisyourpassw0rd</string>
+
+Ex3cise
+Pa5s+w0rD
+
+"[*] this [Ex3cise:Pa5s+w0rD] credentials for exercise only :)");
+
+
+NF9vdmVyZG9uZV9vbWVsZXRz
+4_overdone_omelets
+
+
+2ab96390c7dbe3439de74d0c9b0b1767
+hunter2
+
+9EEADi^^:?;FC652?5C@:5]7:C632D6:@]4@>^DB=:E6];D@?
+https://injuredandroid.firebaseio.com/sqlite.json
+S3V3N_11
+
+
+
+encrypt
+LKnNYWo/yiCGMw8LsQOFKw==
+
+decrypt
+fo5tQFi9DMUuj5yn3D+pKA==
+
+
+
+frida-ps -Ua
+adb shell
+frida -U -l ./script.js
+frida -U -f com.spenx.guineapig -l ./script.js
+frida -U --codeshare akabe1/frida-multiple-unpinning "Guineapig"
+
+
+============ // ===========
+adb shell am start -n b3nac.injuredandroid/.b25lActivity

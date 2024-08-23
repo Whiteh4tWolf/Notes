@@ -1,0 +1,10 @@
+
+frida-ps -Ua
+adb shell
+frida -U -l ./script.js
+frida -U -f com.spenx.guineapig -l ./script.js
+frida -U --codeshare akabe1/frida-multiple-unpinning "Guineapig"
+
+
+============ // ===========
+adb shell am start -n b3nac.injuredandroid/.b25lActivity
