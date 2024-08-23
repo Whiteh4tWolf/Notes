@@ -1,0 +1,3 @@
+for i in $(/bin/ls /opt/seclists/Passwords/*txt); do john --wordlist=$i <(echo -n 'hashcok'); done
+
+for i in $(/bin/ls /usr/share/seclists/Passwords/*txt); do john --wordlist=$i --format=crypt hash.txt; done
