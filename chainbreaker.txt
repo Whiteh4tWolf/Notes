@@ -1,0 +1,14 @@
+chainbreaker
+
+git clone https://github.com/n0fate/chainbreaker
+
+cd chainbreaker
+
+python3 setup.py bdist_wheel -d dist
+
+pip install -e .
+
+python3 -m chainbreaker -pa Mykey.keychain-db -o output
+
+terus input password
+
