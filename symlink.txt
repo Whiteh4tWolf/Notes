@@ -1,0 +1,1 @@
+ln -s /home/kali/hacktrace/Burpsuite_pro/Burp_Suite_Professional-2023-10-2_x86_64.AppImage ~/burpsuite
