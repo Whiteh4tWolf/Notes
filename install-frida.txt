@@ -1,0 +1,19 @@
+
+┌──(root㉿kali)-[/home/kali/Downloads]
+└─# pip3 install frida-tools
+
+cek capabilities > adb shell getprop ro.product.cpu.abi
+adb shell getprop ro.product.cpu.abi
+download > https://github.com/frida/frida/releases
+
+extract > xz -d frida-server-16.3.3-android-x86.xz 
+give access > chmod +x frida-server-16.3.3-android-x86.xz 
+
+
+
+send to emulator > adb push frida-server-16.3.3-android-x86 /data/local/tmp/frida
+
+give execute access on emulator > chmod +x frida
+
+run > ./frida
+
