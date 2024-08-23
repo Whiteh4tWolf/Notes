@@ -1,0 +1,331 @@
+
+=========================== // ===========================
+information gathering
+=========================== // ===========================
+conduct search engine discovery and reconnaisance for information leakage -> lebih cocok ke blackbox, google dorking, shodan, apapun informasi yang ke leak.
+
+
+fingerprint webserver -> menemukan informasi pada respon header, apakah dia ngembaliin nama nya aja atau service nya juga.
+
+
+review webserver metafiles for information leakage -> lihat pada metafiles siapa tau ada informasi robots.txt, misal nemu admin page atau halaman yang gak boleh di lihat public     kalau kosong ceklis nya pass, kalau ada informasi yang lumayan berharga, jadiin issues
+
+
+enumerate application on webserver -> cari informasi menggunakan nmap atau burpsuite, mencari tau ada subdomain apa aja, terkait dengan pengujian blackbox
+
+
+review webpage comments and metadata for information leakage -> biasanya tekan ctrl + u untuk baca source code nya, siapa tau ada informasi tentang cred password, atau endpoint ke login page, itu bisa masuk ke dalam temuan, atau developer lupa untuk ngapus fungsi yang dia comment ke dalam source code 
+
+
+identify application entry points -> kunjungi tiap menu yang ada, tiap page atau halaman yang ada dalam target kita, dan jangan lupa untuk di intercept pakai burp, biar setiap request tercatat dalam burp kita, bantu untuk identifikasi setiap endpoint yang ada.
+
+
+map execution paths through application -> setelah identify semua menu, semua endpoint. map ini yang menggambarkan isi aplikasi secara umum 
+
+
+fingerprint web application framework -> kalau misalnya di temukan pada halaman 404, kadang kalau mereka lupa nutup informasi di dalam halaman 404, kadang server ngembaliin nama framework yang di gunakan misalnya pakai laravel.php, kalau ada informasi seperti itu 
+
+
+map application architechture -> pakai burpsuite untuk pemetaan structure architech 
+
+
+
+========================= // ============================
+configuration and deploy management testing
+========================= // ===========================
+
+test network/infrastructure configuration -> jarang di test untuk melihat webdump atau ftp nya, misal kita bisa lihat sql injection,  dan kita bisa lihat database nya,  itu bisa jadi temuan juga. atau db server nya leak dalam satu endpoint tertentu, bisa jadi temuan juga 
+
+
+test application platform configuration -> cari file sisa instalasi misal readme.txt error file, config file. yang bisa kita dapat melalui directori bruteforcing, bisa di ubah jadi issue jika terjadi 
+
+
+test file extention  handling for sensitive information -> misal ada file pdf yang isi nya tentang cred, bisa juga jadi temuan, atau informasi struktur internal dalam organisasi tersebut 
+
+
+backup and unreferenced for sensitive information -> instrument nya dari brute directory..   atau files, kita bisa lihat sub temuan seperti ini 
+
+
+enumerate infrastructure and application admin interfaces -> kalau seandainya kita nemu halaman login admin yang sebenarnya gak  bisa di akses public, itu juga bisa masuk sebagai temuan 
+
+
+test http method -> kita identift http method, bisa HEAD gak, atau kita bisa pakai http method sembarang aja, itu bisa jadi temuan 
+
+
+test http strict transport secyrity -> secara garis besar mempertahankan kekuatan dari https, menambah ketahanan browser dari seragnan downgrade dari https ke http, nguji apakah target kita udah implemen https atau belum 
+
+
+test ria cross domain policy -> terkait dengan satu ekstension tertentu, misal client access pakai .xml, dan kalau itu bisa kita temuin dan informasi nya berharga untuk si penyerang  bisa jadi temuan juga 
+
+
+
+
+
+============================ // =========================
+identify management testing
+============================ // =========================
+
+test role definitions -> test akun akun yang di berikan pada kita, role apa yang exist dalam target kita. ada admin atau user biasa,  admin bisa akses apa,   users bisa akses apa aja, jagnan sampai user bisa akses hak yagn cuman bisa di admin 
+
+
+test user regristration process -> uji juga proses regristrasi dalam web client, apakah ada celah 
+
+
+test account provisioning process -> misal, apakah dari user biasa bisa validasi datanya sendiri atau enggak. 
+
+
+testing for account enumeration and guessable user account -> dalam login page atau regristrasi process si aplikasi web apakah mengembalikan informasi yang berguna gak..   atau ada pesan penting yang di kembalikan aplikasi,  yang misalnya email ini exist atau enggak..  itu bisa jadi informasi bagi penyerang 
+
+
+testing for weak or unforced username policy -> username yang gampang di tebak yang umum di gunakan para penyerang 
+
+
+test permission of guest atau training account -> apakah ada mungkin aplikasi web ini menyediakan fasilitas untuk login sebagai guest, perlu di uji untuk menu menu dalam guest ini apakah ada kemungkinan untuk melakukan injeksi 
+
+
+test account suspensuin resumption process -> misalnya kalau superadmin ada fungsi untuk lock atau allow user, itu bisa di uji juga..    test case apakah user bisa unlock dirinya sendiri..  bisa jadi temuan juga 
+
+
+
+
+
+====================== // =====================
+authentication testing
+====================== // =====================
+
+
+testing for credentials transported over an encrypted channel -> kalau dia gak pakai https, atau pakai http doang itu udah termasuk temuan.   atau di login page nya dia udah pakai https tapi ada di beberapa halaman tertentu yang menggunakan http namun berisi informasi sensitif.  itu bisa kita masukkan menjadi temuan 
+
+
+testing for default credentials -> kita uji kredensial yagn terlalu umum atau default password,  yang masih cred nya admin admin atau admin admin123, atau admin password,  nah itu bisa kita masukkan jadi temuan juga,   karna ini udah pasti masuk ke dalam wordlists 
+
+
+testing for week lock out mechanism -> mengacu ke kalau misalnya login page terus kita brute, lebih dari 3x dan si aplikasi tidak menemukan sistem lock terhadap username yang sedang kita coba brute, maka itu bsia jadi temuan juga, atau terkait juga dengan rate limit,  semua yang request password..   dengan metode brute berkali kali namun tidak di block, bisa di katakan itu bisa di jadikan temuan 
+
+
+testing for bypassing authentication schema -> biasanya kita sebut dengan force browsing, misal nemu halaman admin terus ada admin.php, kalau kita hit langsung ke halaman tersebut, maka itu bisa di jadikan temuan apabila kita berhasil langsung ke halamam tersebut, ada fungsi yang  bisa kita langsung akses tanpa menggunakan authentikasi 
+
+
+test member password functionality -> kalau ada funsi password remember password, di dalam parameter nya disitu ada informasi sensitif yang bisa kita manfaatkan itu yang bisa membuat kita bisa login atau memanfaatkan session yagn udah pernah ada 
+
+
+testing for browser cache weakness -> terkait dengan tombol back. saat kita login ke dalam aplikasi and kita logout kalau kita tekan tombol back. apakah kita bisa kembali login ke dalam halaman sebelumnya..  dan berhasil masuk.  itu bisa jadi temuan juga 
+
+
+testing for weak password polucy -> jadi kalau pass nya weak alias cuman pass atau password atau password123,   tidak ada huruf besar tak ada karakter spesial,   itu bisa jadi temuan karna gampang di brute 
+
+
+testing for weak security question answer -> misalnya di dalam login kalau kita udah lupa berapa kali dia akan kasih pertanyaan kan, yang sebelumnya udah pernah kita jawab dan kalau jawaban kita benar maka kita akan bisa login,   itu bisa di coba untuk eksploitasi kalu misalnya pertanyaan nyasesuatu yang mudah hdi tebak..    itu bisa jadi temuan juga 
+
+
+testing for weak password change or reset functionality -> kalau gak nampilin old password.  dia bakalan rentan ke csrf untuk account takeover
+
+
+testing for weaker authentication in alternative channel -> apalah bisa login juga pakai gmail. github itu bisa juga di coba disini 
+
+
+
+
+==================== // =====================
+authorization testing
+==================== // =====================
+
+testing directory traversal file include -> untuk directory traversal 
+
+
+testing for bypassing authorization schema -> apakah ada kerentanan untuk edit user delete user yang bisa di akses siapa aja tanpa authentikasi, bisa jadi temuan juga, terkait dengan aksses control list
+
+
+testing for privilage escalation -> misal di url ada grup id 1 dan grup id 2,  kita ubah jadi grup id 1, atau di session nya mungkin ada parameter role = user, bisa coba ganti parameter tersebut dengan yang lain misal administrator, siapa tau kita bisa login sebagai admin 
+
+
+testing for insecure direct object reference ->  ini idor lah udah pasti tau 
+
+
+
+
+
+================== // ==================
+session management testing 
+================== // ==================
+
+
+testing for bypassing session management schema -> kita uji session nya, di sesi yang di berikan apakah mudah di brute, mudah di tebak, di replika
+
+
+testing for cookie atribute -> misal dua atribute yang utama, http only sama secure. kalau salah satunya atau keduanya gak ada bisa jadi temuan 
+
+
+testing for session fixation -> misal penyerang udah dapat satu session yang valid, session itu di pasangkan di korban.  session akan menggunakan session yagn sebelumnya di ketahui penyerang.. dan jika korban login,   maka si penyerang mencoba untuk login juga.  maka itu bisa jadi temuan juga..   penyerang udah nebak aplikasi generate sesi nya..  jadi penyerang bisa generate sesi yagn valid, atau yang kedua penyerang bisa login dulu dan mendapatkan sesi.   terus dia bagiin ke korban nya kalau si server gak lakuin validasi..   dia bakalan bisa tau kalau si sesi sebelumnya udah pernah di generate..   penyerang bisa pakai sesi itu untuk login sebagai user , session ini beda dengan session hijacking.  kalau sesi hijacking itu biasanya pakai mitm. 
+
+
+testing for exposed session variable -> ada beberapa aplikasi yang ngirim session atau token nya dengan menggunakan metode http get. karna dalam history bisa di lihat tiap url yang di submit oleh pengguna web aplikasi, kalau ada disitu ke expose lah sesi yag di gunakan untuk login 
+
+
+testing cross site request forgery -> ada beberapa variable yang  memungkinkan bisa exploitasi csrf apalagi mungkin gak ada token atau unik identifier, atau gak ada parameter yang bisa kita eksploitasi, 
+
+
+testing for logout functionality -> misal pas kita login kita logout lagi terus sessi yang sebelumnya kita pakai buat login kita bisa pakai lagi buat ambil data.  padahal seharusnya sesi itu harus di destroy pas kita udah keluar..   supaya tidak bisa di manfaatkan lagi 
+
+
+testing for timeout -> jangka waktu sesi itu selesai..  jadi kalau di biarin alias gak di pakai.  dia bakalan logout sendiri atau enggak atau berapa lama dia butuhkan buat logout otomatis.   kalau belum di implementasil itu bisa jadi temuan juga 
+
+
+testing for session puzzling -> terkait dengan  seberapa mudah sesi ini ketebak.  
+
+
+
+
+
+
+=================== // ====================
+data validation testing 
+=================== // ====================
+
+testing for reflected cross site scripting -> test reflected xss
+
+testing for stored cross site scripting  -> test xss stored nya juga 
+
+testing for http verb tampering -> pakai http verb tertentu utnuk dapat informasi sensitif
+
+testing for http parameter pollution -> kalau ketemu login page. ada parameter username dan password dan siapa tau kita bisa tambahin parameter allow.   emang gak di tampilin tapi tersembunyi, kita dapatin bahwa ada parameter allow disitu, kita bisa ubah nilai yang false tadi jadi true. jadi kita bisa login alias bypass login page nya dengan cred sembarang 
+
+testing for sql injection -> ada oracle testing, mysql testing, sql server testing, testing postgresql, ms access testing, testing for nosql injection
+
+testing for ldap injection -> identifikasi dia pakai ldap bisa di masukkan ke dalam ceklist sebagaimana jika ada temuan 
+
+testing for orm injection -> mirip kayak sql injection 
+
+testing for xml injection -> jika di body parameter nya mendukung xml, kita pakai payload xml, untuk coba ambil data atau exploitasi server
+
+testing for ssi injection -> bisa pakai ekstension .html tadi, bisa coba di inject coba masukin payload bilamana server nya itu rentan maka dia akan balikan respon dengan isi dari etc password 
+
+testing for xpath injection -> mirip kayak sql injection. cuman udah jarang di gunakan juga 
+
+imap.smtp injection -> inni juga jarang karna terkait dengan penggunaan email. jika dia menggunakan fitur imap, bisa kita masukkan sebagai test case
+
+testing for code injection -> jangan lupa untuk identifikasi code injection juga di skenario nya. kalau scan secara otomatis bisa pakai burp, 
+
+testing for local file inclusion -> lfi 
+
+testing for remote file inclusion -> rfi 
+
+testing for command injection -> command injection bisa pakai burp juga 
+
+testing for buffer overflow -> hampir mungkin selalu ada di framework di setiap aplikasi, tapi udah jarang juga di temuin dalam web aplikasi, ada heap overflow, ada stack overflow dan ada format string, atau kita bisa manual misalnya ktia coba input karakter yang banyauk dalam login page kalau dia crash, ada kemungkinan menjurus terdapkan dengan buffer overflow
+
+testing for incubated vulnerabilities -> bisa pakai file upload. mis configurasi 
+
+testing for http splitting/smuggling -> syulitttt
+
+
+
+======================= // ======================
+error handling
+======================= // ======================
+
+analysis of error codes -> kalau menampilkan error seperti sql injection juga itu bisa masuk ke dalam temuan juga 
+
+analysis of stack traces -> kayak error tentang log file misalnya, beberapa framework kalau mis configurasi maka akan menampilkan stack traces
+
+
+
+====================== // =====================
+cryptography
+====================== // =====================
+
+
+testing for weak ssl/tsl ciphers, insufficient transport layer protection -> umum nya pakai alat bantu kayak test sslsh atau ssl scan, untuk temuan misalnya bis atau pudle itu kan secara tools otomatis udah ada keterangan nya, dan kebanyakan temuan nya bersifat teoritis, karna sulit untuk membuat poc nya, 
+
+testing for padding oracle -> 
+
+testing for sensitive information sent via unencrypted channel -> 
+
+
+========================= // ========================
+business logic testing
+========================= // ========================
+
+test business logic data validation -> kita lihat data apa aja yang di print, misalnya yang di terima hanya string tapi intejer juga bisa nah ini bisa jadi temuan 
+
+test ability to forge request -> kita bisa ngubah request nya.   
+
+test integrity check -> ada data yang harus nya gak bisa di ubah,   tapi kita bisa ubah dan si server gak lakuin validasi ke data tersebut, itu bisa jadi temuan 
+
+test for process timing -> misal dalam pengiriman otp, otp gak ada masa kadarluarsa nya itu masih bisa masuk ke dalam temuan nya 
+
+test number of times a function can be used limits -> misal ada fungsi generate token, eksplotasi fungsi token tersebut secara terus menerus tanpa ada batas, itu bisa jadi temuan 
+
+test for the corcumvention of work flows -> proses regristrasi contoh ada langkah stu sampai langkah 7 tapi kita bsia langsung langkahi ke langkah 7, itu bsia masuk ke dalam skenario testing ini 
+
+test defense againts application mis use -> misalnya apps nya di rancang hanya untuk tugas a, tapi kita bsia pakai untuk tugas b dimana bsia merugikan banyak orang 
+
+test upload of unexpected file types -> misal dia hanya terima jpg tapi bisa upload php, itu bisa termasuk ke dalam temuan 
+
+test upload of malicious files -> testing kalau tadi file php nya bisa di upload apakah bisa di eksploitasi atau enggak 
+
+
+
+================= // ================
+client side testing 
+================= // ================
+
+testing for dom xss ->  test dom xss
+
+testing for javascript execution -> 
+
+testing for html injection -> bisasnya jadi alternatif, kalau xss ga bisa.  coba tag html nya, apakah kita bisa ngubah ngubah teks html nya 
+
+testing for client side url redirect ->  biasanya di sebut open redirect 
+
+testing for css injection -> kalau css bisa di inject kita bisa jadi temuan 
+
+testing for csrm -> ini bisa seacara general di test oleh burp 
+
+testing cors -> yang di perhatikan adalah header, kalau bisa berisi asteriks tanda bintang artinya dia nerima permintaan req dari domain mana saja, 
+
+testing for cross site flashing -> udah agak usang karna ekstensi xwf itu hampir jarang udah jarang di temuin 
+
+testing for clickjacking -> ya clickjacking nya di test 
+
+testing websockets -> kita bisa lihat proxxy http sma proxy websocket, cara pengujian nya misalnya sql injection bsia di coba juga di websocket 
+
+test web messaging -> mirip sama websocket 
+
+test local storage -> apakah dia isi data data sensitif gak dan seberapa lama data data sensitif ini tersimpan, klaau misalnya log out datanya masih ada bsia jadi temuan  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
